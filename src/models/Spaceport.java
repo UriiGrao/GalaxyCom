@@ -8,7 +8,6 @@ package models;
 import java.util.HashMap;
 
 /**
- *
  * @author uriigrao
  */
 public class Spaceport {
@@ -58,5 +57,12 @@ public class Spaceport {
 
     public void setOneRunway(Runway runway) {
         this.runways.put(runway.getNumberRunway(), runway);
+    }
+
+    @Override
+    public String toString() {
+        return "name='" + name + '\'' +
+                ", planet='" + planet + '\'' +
+                ", galaxy='" + galaxy + '\'';
     }
 }

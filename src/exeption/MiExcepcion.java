@@ -1,4 +1,4 @@
-package utils;
+package exeption;
 
 public class MiExcepcion extends Exception {
     
