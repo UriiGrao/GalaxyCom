@@ -61,6 +61,9 @@ public class Functions {
         return Colors.RED + text + Colors.RESET;
 
     }
+    public static String printPurple(String text) {
+        return Colors.PURPLE + text + Colors.RESET;
+    }
 
 
 }
