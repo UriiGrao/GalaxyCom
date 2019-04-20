@@ -4,18 +4,55 @@ import dao.StarDao;
 import exeption.*;
 import models.*;
 import utils.Colors;
+import utils.EntradaDatos;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class Functions {
 
+    private static StarDao starDAO = new StarDao();
+
+    /**** Functions Menu ****/
+    public static void crearSpacePort() {
+        System.out.println("Spaceport dates:");
+        String name = EntradaDatos.pedirCadena("name Spaceport");
+        String planet = EntradaDatos.pedirCadena("name Planet");
+        String galaxy = EntradaDatos.pedirCadena("name Galaxy");
+
+        Spaceport spaceport = new Spaceport(name, planet, galaxy);
+        try {
+            altaSpaceport(spaceport);
+            System.out.println(printPurple("Spaceport added successfully."));
+        } catch (SQLException sqex) {
+
+        }
+    }
+
+    public static void  crearRunway(){
+
+    }
+
+    public static void crearSpaceShip() {
+        System.out.println("Spaceship dates:");
+        String name = EntradaDatos.pedirCadena("name");
+        int capacity = EntradaDatos.pedirEntero("capacity");
+
+        Spaceship spaceship = new Spaceship(name, capacity);
+        try {
+            altaSpaceship(spaceship);
+            System.out.println(printPurple("Spaceship added successfully."));
+        } catch (SQLException sqex) {
+
+        }
+    }
+
+
     /**** QUERYS ****/
-    public static void altaSpaceship(StarDao starDAO, Spaceship spaceship) throws SQLException {
+    public static void altaSpaceship(Spaceship spaceship) throws SQLException {
         try {
             starDAO.conectar();
             starDAO.insertSpaceship(spaceship);
-            System.out.println("Spaceship added successfully.");
         } catch (DaoExcepion ex) {
             System.out.println(ex.getMessage());
         } finally {
@@ -23,11 +60,21 @@ public class Functions {
         }
     }
 
-    public static void altaSpaceport(StarDao starDAO, Spaceport spaceport) throws SQLException {
+    public static void altaRunway(Runway runway) throws SQLException {
+        try {
+            starDAO.conectar();
+            starDAO.insertRunway(runway);
+        } catch (DaoExcepion dex) {
+            System.out.println(dex.getMessage());
+        } finally {
+            starDAO.desconectar();
+        }
+    }
+
+    public static void altaSpaceport(Spaceport spaceport) throws SQLException {
         try {
             starDAO.conectar();
             starDAO.insertSpaceport(spaceport);
-            System.out.println("Spaceport added successfully.");
         } catch (DaoExcepion dex) {
             System.out.println(dex.getMessage());
         } finally {
@@ -61,6 +108,7 @@ public class Functions {
         return Colors.RED + text + Colors.RESET;
 
     }
+
     public static String printPurple(String text) {
         return Colors.PURPLE + text + Colors.RESET;
     }

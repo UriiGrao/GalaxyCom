@@ -5,12 +5,9 @@
  */
 package App;
 
-import dao.StarDao;
 import utils.Colors;
 import utils.EntradaDatos;
 
-import java.sql.*;
-import java.util.Scanner;
 
 /**
  * @author uriigrao
@@ -23,17 +20,21 @@ public class Run {
     public static void main(String[] args) {
         System.out.println(Colors.BLUE + "--> WELCOME TO START STUCOM <--" + Colors.RESET);
 
-        StarDao stardao = new StarDao();
-        // TEST:
-        // testingDB(stardao);
-
         //Opciones Menu
         boolean exit = true;
         while (exit) {
             switch (menu()) {
                 case 1:
+                    Functions.crearSpacePort();
                     break;
-                case 4:
+                case 2:
+                    System.out.println(Functions.printRed("Mantenimiento..."));
+                    // Functions.crearRunway();
+                    break;
+                case 3:
+                    Functions.crearSpaceShip();
+                    break;
+                case 12:
                     System.out.println(Functions.printPurple("See You!! :P"));
                     exit = false;
                     break;
@@ -53,29 +54,21 @@ public class Run {
 
         // MENU DONDE SE LLAMA QUE OPCION QUIERES.
         System.out.print(Colors.BLUE);
-        System.out.println("||------- MENU! -------||");
-        System.out.println("|| 1. Conseguir Cartas ||");
-        System.out.println("|| 2. Batalla          ||");
-        System.out.println("|| 3. Ranking          ||");
-        System.out.println("|| 4. Salir.           ||");
+        System.out.println("||------------- MENU! -------------||");
+        System.out.println("|| 1. Crear Aeropuertos            ||");
+        System.out.println("|| 2. Crear Pista Aterrizajes      ||");
+        System.out.println("|| 3. Crear Naves                  ||");
+        System.out.println("|| 4. Aterrizar Nave               ||");
+        System.out.println("|| 5. Despegar Nave                ||");
+        System.out.println("|| 6. Notificar Fin Limpieza       ||");
+        System.out.println("|| 7. Notificar Fin Mantenimiento  ||");
+        System.out.println("|| 8. Borrar Nave                  ||");
+        System.out.println("|| 9. Ver informacion Naves        ||");
+        System.out.println("|| 10. Ver informacion Aeropuertos ||");
+        System.out.println("|| 11. Ver estado Aeropuertos      ||");
+        System.out.println("|| 12. Salir                       ||");
         System.out.println(Colors.RESET);
         return EntradaDatos.pedirEntero("Elige Opcion: ");
     }
 
-    private static void testingDB(StarDao dao) {
-
-        System.out.println("************************************************************");
-        System.out.println("Testeando conexión con la base de datos...");
-        try {
-            dao.conectar();
-            System.out.println("Establecida la conexión.");
-            System.out.println("************************************************************");
-            System.out.println("Cerrando conexión con la base de datos");
-            dao.desconectar();
-            System.out.println("Conexión cerrada.");
-            System.out.println("************************************************************");
-        } catch (SQLException ex) {
-            System.out.println("Error SQL: " + ex.getMessage());
-        }
-    }
 }

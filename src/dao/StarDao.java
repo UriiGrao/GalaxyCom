@@ -6,6 +6,7 @@
 package dao;
 
 import App.Functions;
+import App.Run;
 import exeption.DaoExcepion;
 import models.*;
 import App.Functions.*;
@@ -57,6 +58,15 @@ public class StarDao {
         ps.close();
     }
 
+    public void insertRunway(Runway ry) throws DaoExcepion, SQLException {
+        if (existRunway(ry)) {
+            throw new DaoExcepion(Functions.printRed("ERROR: Exist one Runway with this name"));
+        }
+        String insert = "insert into runway values(?,?,?,?,?)";
+        PreparedStatement ps = conexion.prepareStatement(insert);
+
+    }
+
     public void insertSpaceport(Spaceport spaceport) throws DaoExcepion, SQLException {
         if (existSpaceport(spaceport)) {
             throw new DaoExcepion(Functions.printRed("ERROR: Exist one Spaceport with this name"));
@@ -73,6 +83,11 @@ public class StarDao {
 
     private boolean existSpaceship(Spaceship spaceship) throws SQLException {
         String select = "select * from spaceship where name='" + spaceship.getName() + "'";
+        return existS(select);
+    }
+
+    public boolean existRunway(Runway runway) throws SQLException {
+        String select = "select * from runway where number='" + runway.getNumberRunway() + "'";
         return existS(select);
     }
 
