@@ -6,7 +6,6 @@
 package models;
 
 /**
- *
  * @author uriigrao
  */
 
@@ -20,12 +19,10 @@ public class Runway {
     private int numLandindings;
 
     /**
-     *
      * @param spaceship
      * @param number
      */
-    public Runway(Spaceship spaceship, int number) {
-        this.spaceship = spaceship;
+    public Runway(int number) {
         this.numberRunway = number;
         this.status = "FREE";
         this.numLandindings = 0;

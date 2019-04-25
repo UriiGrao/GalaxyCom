@@ -89,4 +89,43 @@ public class EntradaDatos extends Exception {
         return num;
     }
 
+    /**
+     * Request String from a ArrayList of String accepteds
+     *
+     * @param message       String
+     * @param wordsAccepted ArrayList of String
+     * @return String
+     */
+    public static String askString(String message, ArrayList<String> wordsAccepted) {
+        String answer;
+        boolean wordOk;
+        do {
+            for (String word : wordsAccepted) {
+                System.out.println(word);
+            }
+            answer = pedirCadena(message);
+            wordOk = wordIsOk(answer, wordsAccepted);
+            if (!wordOk) {
+                System.out.println("Wrong answer!");
+            }
+        } while (!wordOk);
+        return answer;
+    }
+
+    /**
+     * Returns true if the word exists in wordsAccepted.
+     *
+     * @param word
+     * @param wordsAccepted
+     * @return boolean
+     */
+    private static boolean wordIsOk(String word, ArrayList<String> wordsAccepted) {
+        for (String w : wordsAccepted) {
+            if (w.equalsIgnoreCase(word)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

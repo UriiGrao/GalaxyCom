@@ -6,7 +6,6 @@
 package models;
 
 /**
- *
  * @author uriigrao
  */
 public class Spaceship {
@@ -18,7 +17,6 @@ public class Spaceship {
     private int numFlights;
 
     /**
-     *
      * @param name
      * @param capacity
      */
@@ -27,6 +25,13 @@ public class Spaceship {
         this.capacity = capacity;
         this.status = "LANDED";
         this.numFlights = 0;
+    }
+
+    public Spaceship(String name, int capacity, String status, int numFlights) {
+        this.name = name;
+        this.capacity = capacity;
+        this.status = status;
+        this.numFlights = numFlights;
     }
 
     public String getName() {
@@ -61,4 +66,11 @@ public class Spaceship {
         this.numFlights = numFlights;
     }
 
+    @Override
+    public String toString() {
+        return "name='" + name + '\'' +
+                ", capacity=" + capacity +
+                ", status='" + status + '\'' +
+                ", numFlights=" + numFlights;
+    }
 }

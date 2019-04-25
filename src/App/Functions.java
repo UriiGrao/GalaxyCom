@@ -1,12 +1,15 @@
 package App;
 
+import com.mysql.cj.xdevapi.SqlDataResult;
 import dao.StarDao;
 import exeption.*;
 import models.*;
 import utils.Colors;
 import utils.EntradaDatos;
 
+import java.sql.Array;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Functions {
@@ -42,7 +45,17 @@ public class Functions {
     }
 
     public static void crearRunway() {
-
+        ArrayList<String> names = Functions.selectNameSpacesports();
+        String nameSpaceport = EntradaDatos.askString("Elige nombre de Spaceport...", names);
+        System.out.println("Now Runway dates:");
+        int numberRunway = EntradaDatos.pedirEntero("Numero de Runway");
+        Runway runway = new Runway(numberRunway);
+        try {
+            altaRunway(runway, nameSpaceport);
+            System.out.println(printPurple("Runway added successfully."));
+        } catch (SQLException sqex) {
+            System.out.println(printRed(sqex.getMessage()));
+        }
     }
 
     public static void crearSpaceShip() {
@@ -59,8 +72,30 @@ public class Functions {
         }
     }
 
+    public static void removeSpaceship() {
+        ArrayList<String> names = Functions.selectNameSpaceships();
+        String name = EntradaDatos.askString("Elige Nombre de Spaceship a borrar...", names);
+        borrarSpaceship(name);
+    }
+
 
     /**** QUERYS ****/
+    public static void borrarSpaceship(String name) {
+        try {
+            starDAO.conectar();
+            starDAO.deleteSpaceship(name);
+            System.out.println(printPurple("Spaceship Deleted Successfully! "));
+        } catch (SQLException sx) {
+            System.out.println(sx.getMessage());
+        } finally {
+            try {
+                starDAO.desconectar();
+            } catch (SQLException sx) {
+
+            }
+        }
+    }
+
     public static void altaSpaceship(Spaceship spaceship) throws SQLException {
         try {
             starDAO.conectar();
@@ -72,10 +107,10 @@ public class Functions {
         }
     }
 
-    public static void altaRunway(Runway runway) throws SQLException {
+    public static void altaRunway(Runway runway, String nameSP) throws SQLException {
         try {
             starDAO.conectar();
-            starDAO.insertRunway(runway);
+            starDAO.insertRunway(runway, nameSP);
         } catch (DaoExcepion dex) {
             System.out.println(dex.getMessage());
         } finally {
@@ -109,6 +144,42 @@ public class Functions {
             }
         }
         return null;
+    }
+
+    public static ArrayList<String> selectNameSpaceships() {
+        try {
+            starDAO.conectar();
+            ArrayList<String> names = starDAO.selectAllNameSpaceschip();
+            return names;
+        } catch (SQLException sx) {
+            System.out.println(sx.getMessage());
+        } finally {
+            try {
+                starDAO.desconectar();
+            } catch (SQLException sx) {
+
+            }
+        }
+        ArrayList<String> no = new ArrayList<>();
+        return no;
+    }
+
+    public static ArrayList<String> selectNameSpacesports() {
+        try {
+            starDAO.conectar();
+            ArrayList<String> names = starDAO.selectAllNameSpacesport();
+            return names;
+        } catch (SQLException sx) {
+            System.out.println(sx.getMessage());
+        } finally {
+            try {
+                starDAO.desconectar();
+            } catch (SQLException sx) {
+
+            }
+        }
+        ArrayList<String> no = new ArrayList<>();
+        return no;
     }
 
     /***** COLORS *****/

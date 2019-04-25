@@ -20,7 +20,6 @@ public class StarDao {
     Connection conexion;
 
 
-
     // ********************* Selects ****************************
     public List<Spaceport> selectAllSpaceport() throws SQLException {
         String query = "select * from spaceport";
@@ -37,8 +36,51 @@ public class StarDao {
         }
         rs.close();
         st.close();
-        st.close();
         return spaceports;
+    }
+
+    public ArrayList<Spaceship> selectAllSpaceschip() throws SQLException {
+        String query = "select * from spaceship";
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        ArrayList<Spaceship> spaceships = new ArrayList<>();
+        while (rs.next()) {
+            String name = rs.getString("name");
+            int capacity = rs.getInt("capacity");
+            String status = rs.getString("status");
+            int numFlights = rs.getInt("numflights");
+            Spaceship spaceship = new Spaceship(name, capacity, status, numFlights);
+
+            spaceships.add(spaceship);
+        }
+
+        rs.close();
+        st.close();
+        return spaceships;
+    }
+
+    public ArrayList<String> selectAllNameSpaceschip() throws SQLException {
+        String query = "select name from spaceship";
+        return selectAllNames(query);
+    }
+
+    public ArrayList<String> selectAllNameSpacesport() throws SQLException {
+        String query = "select name from spaceport";
+        return selectAllNames(query);
+    }
+
+    private ArrayList<String> selectAllNames(String select) throws SQLException {
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(select);
+        ArrayList<String> names = new ArrayList<>();
+        while (rs.next()) {
+            String name = rs.getString("name");
+            names.add(name);
+        }
+
+        rs.close();
+        st.close();
+        return names;
     }
 
     // ********************* Inserts ****************************
@@ -57,13 +99,19 @@ public class StarDao {
         ps.close();
     }
 
-    public void insertRunway(Runway ry) throws DaoExcepion, SQLException {
+    public void insertRunway(Runway ry, String nameSp) throws DaoExcepion, SQLException {
         if (existRunway(ry)) {
             throw new DaoExcepion(Functions.printRed("ERROR: Exist one Runway with this name"));
         }
         String insert = "insert into runway values(?,?,?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(insert);
-
+        ps.setString(1, nameSp);
+        ps.setInt(2, ry.getNumberRunway());
+        ps.setString(3, ry.getStatus());
+        ps.setInt(4, ry.getNumLandindings());
+        ps.setString(5, "");
+        ps.executeUpdate();
+        ps.close();
     }
 
     public void insertSpaceport(Spaceport spaceport) throws DaoExcepion, SQLException {
@@ -106,6 +154,21 @@ public class StarDao {
         st.close();
         return existe;
     }
+
+
+    // ********************* Deletes ****************************
+
+    public void deleteSpaceship(String name) {
+        try {
+            String delete = "delete from spaceship where name='" + name + "'";
+            Statement st = conexion.createStatement();
+            st.executeUpdate(delete);
+            st.close();
+        } catch (SQLException sx) {
+            System.out.println(Functions.printRed(sx.getMessage()));
+        }
+    }
+
 
     // ********************* Conectar / Desconectar ****************************
     public void conectar() throws SQLException {

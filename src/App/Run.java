@@ -21,8 +21,7 @@ public class Run {
 
         Functions.test();
 
-        System.out.println(Colors.BLUE + "--> WELCOME TO START STUCOM <--" + Colors.RESET);
-
+        System.out.println(Functions.printBlue("--> WELCOME TO START STUCOM <--"));
         //Opciones Menu
         boolean exit = true;
         while (exit) {
@@ -31,11 +30,14 @@ public class Run {
                     Functions.crearSpacePort();
                     break;
                 case 2:
-                    System.out.println(Functions.printRed("Mantenimiento..."));
-                    // Functions.crearRunway();
+                    Functions.crearRunway();
                     break;
                 case 3:
+                    // Falta mirar en que runway crear.
                     Functions.crearSpaceShip();
+                    break;
+                case 8:
+                    Functions.removeSpaceship();
                     break;
                 case 12:
                     System.out.println(Functions.printPurple("See You!! :P"));
