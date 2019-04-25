@@ -9,6 +9,7 @@ package models;
  *
  * @author uriigrao
  */
+
 public class Runway {
 
     private Spaceship spaceship;

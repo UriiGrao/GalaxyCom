@@ -6,14 +6,11 @@
 package dao;
 
 import App.Functions;
-import App.Run;
 import exeption.DaoExcepion;
 import models.*;
-import App.Functions.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author uriigrao
@@ -21,6 +18,8 @@ import java.util.List;
 public class StarDao {
 
     Connection conexion;
+
+
 
     // ********************* Selects ****************************
     public List<Spaceport> selectAllSpaceport() throws SQLException {
@@ -110,7 +109,7 @@ public class StarDao {
 
     // ********************* Conectar / Desconectar ****************************
     public void conectar() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/starstucom?serverTimezone=UTC";
+        String url = "jdbc:mysql://localhost:3306/StarStucom?serverTimezone=UTC";
         String user = "root";
         String pass = "";
         conexion = DriverManager.getConnection(url, user, pass);

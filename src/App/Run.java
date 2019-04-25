@@ -18,6 +18,9 @@ public class Run {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+        Functions.test();
+
         System.out.println(Colors.BLUE + "--> WELCOME TO START STUCOM <--" + Colors.RESET);
 
         //Opciones Menu

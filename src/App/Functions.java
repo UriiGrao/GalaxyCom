@@ -13,6 +13,18 @@ public class Functions {
 
     private static StarDao starDAO = new StarDao();
 
+    public static void test() {
+        // TEST:
+        System.out.println("************************************************************");
+        System.out.println("Testeando conexión con la base de datos...");
+        try {
+            starDAO.conectar();
+            System.out.println("Establecida la conexión.");
+        } catch (SQLException ex) {
+            System.out.println("Error SQL: " + ex.getMessage());
+        }
+    }
+
     /**** Functions Menu ****/
     public static void crearSpacePort() {
         System.out.println("Spaceport dates:");
@@ -29,7 +41,7 @@ public class Functions {
         }
     }
 
-    public static void  crearRunway(){
+    public static void crearRunway() {
 
     }
 
