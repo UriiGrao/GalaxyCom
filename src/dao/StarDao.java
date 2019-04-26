@@ -109,7 +109,7 @@ public class StarDao {
         ps.setInt(2, ry.getNumberRunway());
         ps.setString(3, ry.getStatus());
         ps.setInt(4, ry.getNumLandindings());
-        ps.setString(5, "");
+        ps.setNull(5, Types.VARCHAR);
         ps.executeUpdate();
         ps.close();
     }

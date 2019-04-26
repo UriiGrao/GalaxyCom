@@ -19,7 +19,6 @@ public class Runway {
     private int numLandindings;
 
     /**
-     * @param spaceship
      * @param number
      */
     public Runway(int number) {
