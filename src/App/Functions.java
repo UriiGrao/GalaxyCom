@@ -59,16 +59,24 @@ public class Functions {
     }
 
     public static void crearSpaceShip() {
+        // Pedimos en que Spacesport crear Spaceship
+        ArrayList<String> spaceports = Functions.selectNameSpacesports();
+        String nameSpaceport = EntradaDatos.askString("Elige nombre de Spaceport...", spaceports);
+
+        //Debemos mirar si hay algun Runway vacio.
+        ArrayList<Integer> runways = Functions.selectNameRunways(nameSpaceport);
+        int numRunway = EntradaDatos.askInt("Elige numero de Runway", runways);
+
         System.out.println("Spaceship dates:");
         String name = EntradaDatos.pedirCadena("name");
         int capacity = EntradaDatos.pedirEntero("capacity");
 
         Spaceship spaceship = new Spaceship(name, capacity);
         try {
-            altaSpaceship(spaceship);
+            altaSpaceship(spaceship, numRunway);
             System.out.println(printPurple("Spaceship added successfully."));
         } catch (SQLException sqex) {
-
+            System.out.println(sqex.getMessage());
         }
     }
 
@@ -96,10 +104,10 @@ public class Functions {
         }
     }
 
-    public static void altaSpaceship(Spaceship spaceship) throws SQLException {
+    public static void altaSpaceship(Spaceship spaceship, int numRunway) throws SQLException {
         try {
             starDAO.conectar();
-            starDAO.insertSpaceship(spaceship);
+            starDAO.insertSpaceship(spaceship, numRunway);
         } catch (DaoExcepion ex) {
             System.out.println(ex.getMessage());
         } finally {
@@ -167,18 +175,30 @@ public class Functions {
     public static ArrayList<String> selectNameSpacesports() {
         try {
             starDAO.conectar();
-            ArrayList<String> names = starDAO.selectAllNameSpacesport();
-            return names;
+            ArrayList<String> spacesportsNames = starDAO.selectAllNameSpacesport();
+            return spacesportsNames;
         } catch (SQLException sx) {
             System.out.println(sx.getMessage());
         } finally {
             try {
                 starDAO.desconectar();
             } catch (SQLException sx) {
-
+                System.out.println(sx.getMessage());
             }
         }
         ArrayList<String> no = new ArrayList<>();
+        return no;
+    }
+
+    public static ArrayList<Integer> selectNameRunways(String spacesport) {
+        try {
+            starDAO.conectar();
+            ArrayList<Integer> runwayNames = starDAO.selectAllNameRunway(spacesport);
+            return runwayNames;
+        } catch (SQLException sx) {
+            System.out.println(sx.getMessage());
+        }
+        ArrayList<Integer> no = new ArrayList<>();
         return no;
     }
 

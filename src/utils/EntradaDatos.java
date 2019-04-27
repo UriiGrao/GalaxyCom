@@ -112,6 +112,23 @@ public class EntradaDatos extends Exception {
         return answer;
     }
 
+    public static int askInt(String message, ArrayList<Integer> wordsAccepted) {
+        int answer;
+        boolean wordOk;
+        do {
+            for (int word : wordsAccepted) {
+                System.out.println(word);
+            }
+            answer = pedirEntero(message);
+            wordOk = wordIsOk(answer, wordsAccepted);
+            if (!wordOk) {
+                System.out.println("Wrong answer!");
+            }
+        } while (!wordOk);
+        return answer;
+
+    }
+
     /**
      * Returns true if the word exists in wordsAccepted.
      *
@@ -122,6 +139,15 @@ public class EntradaDatos extends Exception {
     private static boolean wordIsOk(String word, ArrayList<String> wordsAccepted) {
         for (String w : wordsAccepted) {
             if (w.equalsIgnoreCase(word)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean wordIsOk(int word, ArrayList<Integer> wordsAccepted) {
+        for (int w : wordsAccepted) {
+            if (w == word) {
                 return true;
             }
         }

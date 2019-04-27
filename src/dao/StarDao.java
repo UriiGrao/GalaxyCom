@@ -64,6 +64,20 @@ public class StarDao {
         return selectAllNames(query);
     }
 
+    public ArrayList<Integer> selectAllNameRunway(String spaceport) throws SQLException {
+        String query = "select number from runway where spaceport='" + spaceport + "' and status='FREE'";
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        ArrayList<Integer> names = new ArrayList<>();
+        while (rs.next()) {
+            Integer name = rs.getInt("number");
+            names.add(name);
+        }
+        rs.close();
+        st.close();
+        return names;
+    }
+
     public ArrayList<String> selectAllNameSpacesport() throws SQLException {
         String query = "select name from spaceport";
         return selectAllNames(query);
@@ -84,7 +98,7 @@ public class StarDao {
     }
 
     // ********************* Inserts ****************************
-    public void insertSpaceship(Spaceship sp) throws DaoExcepion, SQLException {
+    public void insertSpaceship(Spaceship sp, int numRunway) throws DaoExcepion, SQLException {
         if (existSpaceship(sp)) {
             throw new DaoExcepion(Functions.printRed("ERROR: Exist one Spaceship with this name"));
         }
@@ -97,6 +111,15 @@ public class StarDao {
         ps.setInt(4, sp.getNumFlights());
         ps.executeUpdate();
         ps.close();
+
+        Statement st = conexion.createStatement();
+        String update = "update runway set spaceship='" + sp.getName()
+                + "' where number='" + numRunway + "'";
+        st.executeUpdate(update);
+        conexion.commit();
+        st.close();
+
+
     }
 
     public void insertRunway(Runway ry, String nameSp) throws DaoExcepion, SQLException {
