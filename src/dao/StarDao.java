@@ -113,10 +113,9 @@ public class StarDao {
         ps.close();
 
         Statement st = conexion.createStatement();
-        String update = "update runway set spaceship='" + sp.getName()
+        String update = "update runway set spaceship='" + sp.getName() + "', status='BUSY"
                 + "' where number='" + numRunway + "'";
         st.executeUpdate(update);
-        conexion.commit();
         st.close();
 
 
