@@ -59,13 +59,23 @@ public class StarDao {
         return spaceships;
     }
 
-    public ArrayList<String> selectAllNameSpaceschip() throws SQLException {
-        String query = "select name from spaceship";
+    public ArrayList<String> selectAllNameSpaceschip(String status) throws SQLException {
+        String query = "";
+        if (status.equalsIgnoreCase("")) {
+            query = "select name from spaceship";
+        } else {
+            query = "select name from spaceship where status='" + status + "'";
+        }
         return selectAllNames(query);
     }
 
     public ArrayList<Integer> selectAllNameRunway(String spaceport) throws SQLException {
-        String query = "select number from runway where spaceport='" + spaceport + "' and status='FREE'";
+        String query;
+        if (spaceport.equals("")) {
+            query = "select number from runway where status='FREE'";
+        } else {
+            query = "select number from runway where spaceport='" + spaceport + "' and status='FREE'";
+        }
         Statement st = conexion.createStatement();
         ResultSet rs = st.executeQuery(query);
         ArrayList<Integer> names = new ArrayList<>();
@@ -97,7 +107,7 @@ public class StarDao {
         return names;
     }
 
-    // ********************* Inserts ****************************
+    // ********************* Inserts / Updates ****************************
     public void insertSpaceship(Spaceship sp, int numRunway) throws DaoExcepion, SQLException {
         if (existSpaceship(sp)) {
             throw new DaoExcepion(Functions.printRed("ERROR: Exist one Spaceship with this name"));
@@ -177,13 +187,34 @@ public class StarDao {
         return existe;
     }
 
+    public void landSpaceship(String nameSs, String status) {
+        try {
+            Statement st = conexion.createStatement();
+            String update = "update spaceship set status='" + status
+                    + "', numflights=numflights+1"
+                    + " where name='" + nameSs + "'";
+            st.executeUpdate(update);
+
+            update = "update runway set spaceship=null, numlandings=numlandings+1," +
+                    " status='FREE' where spaceship='" + nameSs + "'";
+            st.executeUpdate(update);
+            st.close();
+        } catch (SQLException sx) {
+            System.out.println(Functions.printRed(sx.getMessage()));
+        }
+    }
 
     // ********************* Deletes ****************************
 
     public void deleteSpaceship(String name) {
         try {
-            String delete = "delete from spaceship where name='" + name + "'";
+
             Statement st = conexion.createStatement();
+            String update = "update runway set status='FREE"
+                    + "' where spaceship='" + name + "'";
+            st.executeUpdate(update);
+
+            String delete = "delete from spaceship where name='" + name + "'";
             st.executeUpdate(delete);
             st.close();
         } catch (SQLException sx) {

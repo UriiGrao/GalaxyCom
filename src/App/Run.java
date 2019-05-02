@@ -5,6 +5,7 @@
  */
 package App;
 
+import exeption.MiExcepcion;
 import utils.Colors;
 import utils.EntradaDatos;
 
@@ -30,11 +31,34 @@ public class Run {
                     Functions.crearSpacePort();
                     break;
                 case 2:
-                    Functions.crearRunway();
+                    try {
+                        Functions.crearRunway();
+                    } catch (MiExcepcion mx) {
+                        System.out.println(Functions.printRed(mx.getMessage()));
+
+                    }
                     break;
                 case 3:
-                    // Falta mirar en que runway crear.
-                    Functions.crearSpaceShip();
+                    try {
+                        Functions.crearSpaceShip();
+                    } catch (MiExcepcion mx) {
+                        System.out.println(Functions.printRed(mx.getMessage()));
+                    }
+                    break;
+                case 4:
+                    try {
+                        Functions.aterrizarSpaceShip();
+                    } catch (MiExcepcion mx) {
+                        System.out.println(Functions.printRed(mx.getMessage()));
+                    }
+                    break;
+                case 5:
+                    try {
+                        Functions.despegarSpaceShip();
+                    } catch (MiExcepcion mx) {
+                        System.out.println(Functions.printRed(mx.getMessage()));
+
+                    }
                     break;
                 case 8:
                     Functions.removeSpaceship();
