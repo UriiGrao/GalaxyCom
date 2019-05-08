@@ -15,7 +15,7 @@ public class Spaceport {
     private String name;
     private String planet;
     private String galaxy;
-    public HashMap<Integer, Runway> runways;
+    private HashMap<Integer, Runway> runways = new HashMap<>();
 
     public Spaceport(String name, String planet, String galaxy) {
         this.name = name;

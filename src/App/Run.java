@@ -25,6 +25,8 @@ public class Run {
         System.out.println(Functions.printBlue("--> WELCOME TO START STUCOM <--"));
         //Opciones Menu
         boolean exit = true;
+
+        // While con el switch del menu donde llamaremos las funciones de cada caso.
         while (exit) {
             switch (menu()) {
                 case 1:
@@ -35,7 +37,6 @@ public class Run {
                         Functions.crearRunway();
                     } catch (MiExcepcion mx) {
                         System.out.println(Functions.printRed(mx.getMessage()));
-
                     }
                     break;
                 case 3:
@@ -57,13 +58,49 @@ public class Run {
                         Functions.despegarSpaceShip();
                     } catch (MiExcepcion mx) {
                         System.out.println(Functions.printRed(mx.getMessage()));
-
                     }
                     break;
                 case 6:
+                    try {
+                        Functions.limpiezaRunway();
+                    } catch (MiExcepcion mx) {
+                        System.out.println(Functions.printRed(mx.getMessage()));
+                    }
+                    break;
+                case 7:
+                    try {
+                        Functions.limpiezaSpaceship();
+                    } catch (MiExcepcion mx) {
+                        System.out.println(Functions.printRed(mx.getMessage()));
+                    }
                     break;
                 case 8:
-                    Functions.removeSpaceship();
+                    try {
+                        Functions.removeSpaceship();
+                    } catch (MiExcepcion mx) {
+                        System.out.println(Functions.printRed(mx.getMessage()));
+                    }
+                    break;
+                case 9:
+                    try {
+                        Functions.watchSpaceShips();
+                    } catch (MiExcepcion mx) {
+                        System.out.println(Functions.printRed(mx.getMessage()));
+                    }
+                    break;
+                case 10:
+                    try {
+                        Functions.watchRunways();
+                    } catch (MiExcepcion mx) {
+                        System.out.println(Functions.printRed(mx.getMessage()));
+                    }
+                    break;
+                case 11:
+                    try {
+                        Functions.watchSpaceport();
+                    } catch (MiExcepcion mx) {
+                        System.out.println(Functions.printRed(mx.getMessage()));
+                    }
                     break;
                 case 12:
                     System.out.println(Functions.printPurple("See You!! :P"));

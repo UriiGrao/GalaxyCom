@@ -27,6 +27,13 @@ public class Runway {
         this.numLandindings = 0;
     }
 
+    public Runway(int number, String status, int numLandings, Spaceship spaceship) {
+        this.spaceship = spaceship;
+        this.numberRunway = number;
+        this.numLandindings = numLandings;
+        this.status = status;
+    }
+
     public Spaceship getSpaceship() {
         return spaceship;
     }
@@ -59,4 +66,10 @@ public class Runway {
         this.numLandindings = numLandindings;
     }
 
+    @Override
+    public String toString() {
+        return " numberRunway=" + numberRunway +
+                ", status='" + status + '\'' +
+                ", numLandindings=" + numLandindings;
+    }
 }
