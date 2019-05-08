@@ -60,6 +60,8 @@ public class Run {
 
                     }
                     break;
+                case 6:
+                    break;
                 case 8:
                     Functions.removeSpaceship();
                     break;

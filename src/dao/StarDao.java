@@ -107,6 +107,60 @@ public class StarDao {
         return names;
     }
 
+    private int selectRunwayNL(String spName) {
+        int number = 0;
+
+        try {
+            String query = "select numlandings from runway where spaceship='" + spName + "'";
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                number = rs.getInt("number");
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException sq) {
+
+        }
+        return number;
+
+    }
+
+    private int selectRunwayNumber(String spName) {
+        int number = 0;
+
+        try {
+            String query = "select number from runway where spaceship='" + spName + "'";
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                number = rs.getInt("number");
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException sq) {
+            System.out.println(Functions.printRed(sq.getMessage()));
+        }
+        return number;
+
+    }
+
+    private int selectSpaceshipFly(String nameSpaceship) {
+        int number = 0;
+
+        try {
+            String query = "select numflights from spaceship where name='" + nameSpaceship + "'";
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                number = rs.getInt("numflights");
+            }
+        } catch (SQLException sq) {
+            System.out.println(Functions.printRed(sq.getMessage()));
+        }
+        return number;
+    }
+
     // ********************* Inserts / Updates ****************************
     public void insertSpaceship(Spaceship sp, int numRunway) throws DaoExcepion, SQLException {
         if (existSpaceship(sp)) {
@@ -187,22 +241,48 @@ public class StarDao {
         return existe;
     }
 
-    public void landSpaceship(String nameSs, String status) {
+    public void flySpaceship(String nameSs) {
         try {
+
+            int runwayNL = selectRunwayNL(nameSs);
+            int runwayNumber = selectRunwayNumber(nameSs);
+
             Statement st = conexion.createStatement();
-            String update = "update spaceship set status='" + status
-                    + "', numflights=numflights+1"
+            String update = "update spaceship set status='FLYING', numflights=numflights+1"
                     + " where name='" + nameSs + "'";
             st.executeUpdate(update);
-
             update = "update runway set spaceship=null, numlandings=numlandings+1," +
                     " status='FREE' where spaceship='" + nameSs + "'";
+
+            if ((runwayNL + 1) % 5 == 0) {
+                update = "update runway set status='CLEANING' where number='" + runwayNL + "'";
+            }
             st.executeUpdate(update);
             st.close();
         } catch (SQLException sx) {
             System.out.println(Functions.printRed(sx.getMessage()));
         }
     }
+
+    public void landSpaceship(String nameSpaceship, int runwayNumber) {
+        try {
+            Statement st = conexion.createStatement();
+            String update = "update runway set spaceship='" + nameSpaceship + "', status='FULL' where number='" + runwayNumber + "'";
+            st.executeUpdate(update);
+
+            int numFlights = selectSpaceshipFly(nameSpaceship);
+            if (numFlights % 15 == 0) {
+                update = "update spaceship set status='BROKEN' where name='" + nameSpaceship + "'";
+            } else {
+                update = "update spaceship set status='LANDED' where name='" + nameSpaceship + "'";
+            }
+            st.executeUpdate(update);
+            st.close();
+        } catch (SQLException sx) {
+            System.out.println(Functions.printRed(sx.getMessage()));
+        }
+    }
+
 
     // ********************* Deletes ****************************
 

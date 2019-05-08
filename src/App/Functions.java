@@ -100,32 +100,56 @@ public class Functions {
     public static void despegarSpaceShip() throws MiExcepcion {
         ArrayList<String> names = selectNameSpaceships("LANDED");
         if (names.size() == 0) {
-            throw new MiExcepcion("No hay Spaceships para despegar.");
+            throw new MiExcepcion(printRed("No hay Spaceships para despegar."));
         }
-        String nameSpaceship = EntradaDatos.askString("Selecciona nave: ", names);
+        String nameSpaceship = EntradaDatos.askString(printBlue("Selecciona nave: "), names);
 
         despegarNave(nameSpaceship);
-
+        System.out.println(printPurple("Nave despegada Correctamente!"));
     }
 
     public static void aterrizarSpaceShip() throws MiExcepcion {
         ArrayList<String> names = selectNameSpaceships("FLYING");
         if (names.size() == 0) {
-            throw new MiExcepcion("No hay Spaceships para aterrizae.");
+            throw new MiExcepcion(printRed("No hay Spaceships para aterrizae."));
         }
         String nameSpaceship = EntradaDatos.askString("Selecciona nave: ", names);
 
         ArrayList<Integer> runways = selectNameAllRunways();
-        int runway = EntradaDatos.askInt("Selecciona runway: ", runways);
+        if (runways.size() == 0) {
+            throw new MiExcepcion(printRed("No hay Runways donde aterrizar."));
+        }
+        int runwayNumber = EntradaDatos.askInt("Selecciona runway: ", runways);
+
+        aterrizarNave(nameSpaceship, runwayNumber);
+        System.out.println(printPurple("Nave aterrizada Correctamente!"));
     }
 
+
     /**** QUERYS ****/
+    private static void aterrizarNave(String nameSpaceship, int runwayNumber) {
+        try {
+            starDAO.conectar();
+            starDAO.landSpaceship(nameSpaceship, runwayNumber);
+
+        } catch (SQLException sx) {
+            System.out.println(printRed(sx.getMessage()));
+        } finally {
+            try {
+                starDAO.desconectar();
+            } catch (SQLException sx) {
+
+            }
+        }
+    }
+
     private static void despegarNave(String name) {
         try {
             starDAO.conectar();
-            starDAO.landSpaceship(name, "FLYING");
+            starDAO.flySpaceship(name);
+
         } catch (SQLException sx) {
-            System.out.println(sx.getMessage());
+            System.out.println(printRed(sx.getMessage()));
         } finally {
             try {
                 starDAO.desconectar();
@@ -141,7 +165,7 @@ public class Functions {
             starDAO.deleteSpaceship(name);
             System.out.println(printPurple("Spaceship Deleted Successfully! "));
         } catch (SQLException sx) {
-            System.out.println(sx.getMessage());
+            System.out.println(printRed(sx.getMessage()));
         } finally {
             try {
                 starDAO.desconectar();
