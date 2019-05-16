@@ -531,7 +531,7 @@ public class Functions {
     private static ArrayList<String> selectNameSpacesports() {
         try {
             starDAO.conectar();
-            ArrayList<String> spacesportsNames = starDAO.selectAllNameSpacesport();
+            ArrayList<String> spacesportsNames = starDAO.selectAllNamespaceport();
             return spacesportsNames;
         } catch (SQLException sx) {
             System.out.println(sx.getMessage());
